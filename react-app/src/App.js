@@ -3,6 +3,7 @@ import './App.css';
 import Subject from './components/Subject';
 import TOC from './components/TOC';
 import Content from './components/Contents';
+import Control from './components/Control';
 
 // 8 line ~ 19 line이 컴포넌트를 만드는 곳
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
     //state값 초기화
     this.state = {
       mode: 'read',
+      selected_content_id: 2,
       subject: {title: 'Web', sub: 'World Wide Web'},
       welcome: {title: 'Welcome', desc: 'Hello, React!'},
       contents: [
@@ -23,16 +25,24 @@ class App extends Component {
   }
 
   render() {
-    console.log('App render');
+    
     var _title, _desc = null;
-    if(this.state.mode === 'welcome') {
+    if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
-    } else if(this.state.mode === 'read') {
-      _title = this.state.contents[0].title;
-      _desc = this.state.contents[0].desc;
+    } else if (this.state.mode === 'read') {
+      var i = 0;
+      while (i < this.state.contents.length) {
+        var data = this.state.contents[i]
+        if (data.id === this.state.selected_content_id) {
+          _title = data.title;
+          _desc = data.desc;
+          break;
+        }
+        i = i + 1;
+      }
     }
-    console.log('render', this);
+    
     return (
       <div className="App">
         <Subject 
@@ -59,13 +69,18 @@ class App extends Component {
           {this.state.subject.sub}
         </header>    */}
         <TOC
-          onChangePage={
-            function() {
-              alert('hellowwwww😋');
-              this.setState({mode: 'read'});
+          onChangePage={function(id) {
+              // alert('hellowwwww😋');
+              this.setState({
+                mode: 'read',
+                selected_content_id : Number(id)
+              });
             }.bind(this)}
           data={this.state.contents}
         ></TOC>
+        <Control onChangeMode={function(_mode) {
+          this.setState({mode: _mode});
+        }.bind(this)}></Control>
         <Content title={_title} desc={_desc}></Content>
       </div>
       // 리턴된 값 중 가장 바깥태그는 하나여야만 한다! 
