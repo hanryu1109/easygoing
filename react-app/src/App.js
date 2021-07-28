@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, createContext } from 'react';
 import './App.css';
 import Subject from './components/Subject';
 import TOC from './components/TOC';
-import Content from './components/Contents';
+import ReadContent from './components/ReadContent';
+import CreateContent from './components/CreateContent';
+import UpdateContent from './components/UpdateContent';
 import Control from './components/Control';
 
 // 8 line ~ 19 line이 컴포넌트를 만드는 곳
@@ -11,8 +13,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     //state값 초기화
+    this.max_content_id = 3;
     this.state = {
-      mode: 'read',
+      mode: 'create',
       selected_content_id: 2,
       subject: {title: 'Web', sub: 'World Wide Web'},
       welcome: {title: 'Welcome', desc: 'Hello, React!'},
@@ -24,25 +27,59 @@ class App extends Component {
     }
   }
 
-  render() {
-    
-    var _title, _desc = null;
+  getReadContent() {
+    var i = 0;
+    while (i < this.state.contents.length) {
+      var data = this.state.contents[i]
+      if (data.id === this.state.selected_content_id) {
+        return data;
+      }
+      i = i + 1;
+    }
+  }
+
+  getContent() {
+    var _title, _desc, _article, _content = null;
     if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>;
     } else if (this.state.mode === 'read') {
-      var i = 0;
-      while (i < this.state.contents.length) {
-        var data = this.state.contents[i]
-        if (data.id === this.state.selected_content_id) {
-          _title = data.title;
-          _desc = data.desc;
-          break;
-        }
-        i = i + 1;
-      }
+      _content = this.getReadContent();
+      _article = <ReadContent title={_content.title} desc={_content.desc}></ReadContent>
+    } else if (this.state.mode === "create") {
+      _article = <CreateContent onSubmit={function(_title, _desc){
+        // console.log(_title, _desc);
+        this.max_content_id = this.max_content_id + 1;
+        // 아래와 같이 state의 값을 직접 변경하면 react가 변경되었느지 알지 못한다. 따라서 this.setState로 갱신해줘야 한다.
+        // this.state.contents.push({id: this.max_content_id, title: _title, desc: _desc}) //array에 요소 값 추가할 때 원본데이터를 바꾸는 push()를 쓰지말고 concat()을 쓰자
+        var _contents = this.state.contents.concat({id: this.max_content_id, title: _title, desc: _desc})
+        // this.setState({
+        //   contents: this.state.contents
+        // })
+        this.setState({
+          contents: _contents
+        })
+      }.bind(this)}></CreateContent>;
+    } else if (this.state.mode === "update") {
+      _content = this.getReadContent();
+      _article = <UpdateContent data={_content} onSubmit={function(_title, _desc) {
+        this.max_content_id = this.max_content_id + 1;
+        // 아래와 같이 state의 값을 직접 변경하면 react가 변경되었느지 알지 못한다. 따라서 this.setState로 갱신해줘야 한다.
+        // this.state.contents.push({id: this.max_content_id, title: _title, desc: _desc}) //array에 요소 값 추가할 때 원본데이터를 바꾸는 push()를 쓰지말고 concat()을 쓰자
+        var _contents = this.state.contents.concat({id: this.max_content_id, title: _title, desc: _desc})
+        // this.setState({
+        //   contents: this.state.contents
+        // })
+        this.setState({
+          contents: _contents
+        })
+      }.bind(this)}></UpdateContent>;
     }
-    
+    return _article
+  }
+
+  render() {
     return (
       <div className="App">
         <Subject 
@@ -81,7 +118,7 @@ class App extends Component {
         <Control onChangeMode={function(_mode) {
           this.setState({mode: _mode});
         }.bind(this)}></Control>
-        <Content title={_title} desc={_desc}></Content>
+        {this.getContent()}
       </div>
       // 리턴된 값 중 가장 바깥태그는 하나여야만 한다! 
     )
