@@ -43,4 +43,15 @@ function Control(props) {
     )
 }
 
+// 연습 중
+// function Control(props) {
+//     return (
+//         <ul>
+//             <li><a href="/create">Create</a></li>
+//             <li><a href="/update">Update</a></li>
+//             <li><a href="">Delete</a></li>
+//         </ul>
+//     )
+// }
+
 export default Control;

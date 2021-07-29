@@ -15,8 +15,8 @@ class App extends Component {
     //state값 초기화
     this.max_content_id = 3;
     this.state = {
-      mode: 'create',
-      selected_content_id: 2,
+      mode: 'welcome',
+      selected_content_id: 1,
       subject: {title: 'Web', sub: 'World Wide Web'},
       welcome: {title: 'Welcome', desc: 'Hello, React!'},
       contents: [
@@ -58,23 +58,40 @@ class App extends Component {
         //   contents: this.state.contents
         // })
         this.setState({
-          contents: _contents
+          contents: _contents,
+          // selected_content_id: _contents.length,
+          selected_content_id: this.max_content_id,
+          mode: "read"
         })
       }.bind(this)}></CreateContent>;
     } else if (this.state.mode === "update") {
       _content = this.getReadContent();
-      _article = <UpdateContent data={_content} onSubmit={function(_title, _desc) {
-        this.max_content_id = this.max_content_id + 1;
-        // 아래와 같이 state의 값을 직접 변경하면 react가 변경되었느지 알지 못한다. 따라서 this.setState로 갱신해줘야 한다.
-        // this.state.contents.push({id: this.max_content_id, title: _title, desc: _desc}) //array에 요소 값 추가할 때 원본데이터를 바꾸는 push()를 쓰지말고 concat()을 쓰자
-        var _contents = this.state.contents.concat({id: this.max_content_id, title: _title, desc: _desc})
-        // this.setState({
-        //   contents: this.state.contents
-        // })
-        this.setState({
-          contents: _contents
-        })
-      }.bind(this)}></UpdateContent>;
+      _article = <UpdateContent data={_content} onSubmit={
+        function(_id, _title, _desc) {
+          // 아래와 같이 state의 값을 직접 변경하면 react가 변경되었느지 알지 못한다. 따라서 this.setState로 갱신해줘야 한다.
+          // this.state.contents.push({id: this.max_content_id, title: _title, desc: _desc}) //array에 요소 값 추가할 때 원본데이터를 바꾸는 push()를 쓰지말고 concat()을 쓰자
+          // var _contents = this.state.contents.concat({id: this.max_content_id, title: _title, desc: _desc})
+          var _contents = Array.from(this.state.contents);
+          // this.setState({
+          //   contents: this.state.contents
+          // })
+
+          var i = 0;
+          while(i < _contents.length) {
+            if(_id === _contents[i].id) {
+              // _content.title = _title;
+              // _content.desc = _desc;
+              _contents[i] = {id: _id, title: _title, desc: _desc}
+              break
+            }
+            i = i + 1;
+          }
+
+          this.setState({
+            contents: _contents,
+            mode: "read"
+          })
+        }.bind(this)}></UpdateContent>;
     }
     return _article
   }
@@ -107,7 +124,6 @@ class App extends Component {
         </header>    */}
         <TOC
           onChangePage={function(id) {
-              // alert('hellowwwww😋');
               this.setState({
                 mode: 'read',
                 selected_content_id : Number(id)
@@ -116,7 +132,29 @@ class App extends Component {
           data={this.state.contents}
         ></TOC>
         <Control onChangeMode={function(_mode) {
-          this.setState({mode: _mode});
+          if (_mode === "delete") {
+            if(window.confirm("정말 삭제하시겠습니까?")) {
+              // console.log(this.state.selected_content_id);
+              var _contents = Array.from(this.state.contents);
+              var i = 0;
+              while (i < _contents.length) {
+                if (_contents[i].id === this.state.selected_content_id) {
+                  _contents.splice(i, 1);
+                  break
+                }
+                i = i + 1
+              }
+            }
+            this.setState({
+              contents: _contents,
+              mode: "welcome"
+            });
+            alert("deleted!!");
+          } else {
+            this.setState({
+              mode: _mode
+            });
+          }
         }.bind(this)}></Control>
         {this.getContent()}
       </div>

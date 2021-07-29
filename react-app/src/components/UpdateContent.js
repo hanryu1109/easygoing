@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 // import React, { Component } from 'react';
 
+//Update를 하려면 어디를 업데이트 할 것인지에 대한 식별자가 필요
 class UpdateContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: this.props.data.id,
             title: this.props.data.title,
             desc: this.props.data.desc
         }
@@ -25,11 +27,13 @@ class UpdateContent extends Component {
                     onSubmit={function(e) {
                         e.preventDefault();
                         this.props.onSubmit(
-                            e.target.title.value,
-                            e.target.desc.value
+                            this.state.id,
+                            this.state.title,
+                            this.state.desc
                         )
                     }.bind(this)}
                 >
+                    <input type="hidden" name="id" value={this.state.id}></input>
                     <p>
                         <input
                             type="text"
