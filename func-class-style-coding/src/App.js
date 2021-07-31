@@ -1,7 +1,6 @@
 // import React from 'react';
 import React, { useState } from 'react';
 import './App.css';
-import { from } from 'pumpify';
 
 function App() {
   return (
@@ -49,6 +48,7 @@ function FuncComp(props) {
   )
 }
 
+var classStyle = 'color:red';
 //클래스 스타일은 render()메소드를 정의해서 걔 리턴 값이 UI, 즉 실제 모양이 된다.
 class ClassComp extends React.Component{
   state = {
@@ -57,6 +57,11 @@ class ClassComp extends React.Component{
   } //state를 초기화 하고 그 state 값을 사용하고 , 변경하는 이 과정을 예전 함수 방식 컴포넌트에서는 할 수 없었다.
   //함수 방식 컴포넌트는 props로 전달되는 값을 화면에 표시해주는 용도로 간단하게 사용할 컴포넌트에서만 머물렀음
   //그러나 이제 hook을 통해서 함수 방식에서도 state를 사용할 수 있게 됨.
+  
+  componentWillMount(){
+    console.log('%cclass => componentWillMount', classStyle);
+  }
+  
   render() {
     return (
       <div className="container">
