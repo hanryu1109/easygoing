@@ -69,4 +69,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-please...
+### permission denied error
+- 구글에서 검색한 입력어 : npm start permission denied mac
+- 해결방법 링크 : https://heygabriel.medium.com/npm-start-permission-denied-error-how-to-solve-it-2387c7472319
+- 왜 에러가 났나?
+  - 윈도우 os 에서 작업한 폴더를 mac os에서 사용하려고 로컬에 설치했는데 react application 이 실행이 안됨
+  - npm 명령어가 하나도 안 먹힘
+  - 일단 어찌저찌 해결했는데 내가 node를 설치하고 node_modules 파일을 지웠다가 다시 받아서 그런가..? 
+  - 앞으로 node 설치하고 난 후 관련 파일을 함부로 삭제했다가 다시 다운받고 이러지 말아야지..
+  - 윈도우에서 잘 돌아가는지 다음에 확인 해봐야겠다...
