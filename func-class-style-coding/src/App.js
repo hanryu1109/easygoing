@@ -58,11 +58,29 @@ class ClassComp extends React.Component{
   //함수 방식 컴포넌트는 props로 전달되는 값을 화면에 표시해주는 용도로 간단하게 사용할 컴포넌트에서만 머물렀음
   //그러나 이제 hook을 통해서 함수 방식에서도 state를 사용할 수 있게 됨.
   
-  componentWillMount(){
+  componentWillMount() {
     console.log('%cclass => componentWillMount', classStyle);
   }
   
+  componentDidMount() {
+    console.log('%cclass => componentDidMount', classStyle);
+  }
+
+  shouldComponentUpdate() {
+    console.log('%cclass => shouldComponentUpdate', classStyle);
+    return true
+  }
+
+  componentWillUpdate() {
+    console.log('%cclass => componentWillUpdate', classStyle);
+  }
+
+  componentDidUpdate() {
+    console.log('%cclass => componentDidUpdate', classStyle);
+  }
+
   render() {
+    console.log('%cclass => render', classStyle);
     return (
       <div className="container">
         <h2>class style component</h2>
