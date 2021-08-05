@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from "react-router-dom"
+import { 
+  BrowserRouter as Router,
+  Route,
+} from "react-router-dom"
 
 function Home() {
   return (
@@ -35,17 +38,20 @@ function App() {
   return (
     <div>
       <h1>React Router Dom Example</h1>
-      <Home></Home>
-      <Topics></Topics>
-      <Contact></Contact>
+      <ul><li><a href="/">Home</a></li></ul>
+      <ul><li><a href="/topics">Topics</a></li></ul>
+      <ul><li><a href="/contact">Contact</a></li></ul>
+      <Route exact path="/"><Home>Home</Home></Route>
+      <Route path="/topics"><Topics>Topics</Topics></Route>
+      <Route path="/contact"><Contact>Contact</Contact></Route>
     </div>
   )
 }
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Router>
     <App />
-  </React.StrictMode>,
+  </Router>,
   document.getElementById('root')
 );
 
