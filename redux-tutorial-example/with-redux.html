@@ -183,13 +183,13 @@ function Red() {
             <h2>RED</h2>
             <input type="button" value="change" onclick="
                 store.dispatch({type: 'CHANGE_COLOR', color: 'red'})
-            "
+            ">
         </div>
     `
 }
 store.subscribe(Red);
 Red()
-
+ 
 function blue() {
     var state = store.getState();
     document.querySelector("#blue").innerHTML = `

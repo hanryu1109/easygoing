@@ -6,6 +6,7 @@ import ReadContent from './components/ReadContent';
 import CreateContent from './components/CreateContent';
 import UpdateContent from './components/UpdateContent';
 import Control from './components/Control';
+import Weather from './Weather';
 
 // 8 line ~ 19 line이 컴포넌트를 만드는 곳
 class App extends Component {
@@ -157,6 +158,8 @@ class App extends Component {
           }
         }.bind(this)}></Control>
         {this.getContent()}
+
+        <Weather></Weather>
       </div>
       // 리턴된 값 중 가장 바깥태그는 하나여야만 한다! 
     )

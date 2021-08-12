@@ -60,6 +60,7 @@ function control(){
 }
 function article(){
     var state = store.getState();
+    console.log(`state: ${state.mode}`)
     if(state.mode === 'create'){
         document.querySelector('#content').innerHTML = `
         <article>
@@ -111,6 +112,8 @@ function article(){
         `
     }
 }
+
+
 function reducer(state, action){
     if(state === undefined){
         return {
@@ -121,7 +124,7 @@ function reducer(state, action){
                 {id:1,title:'HTML',desc:'HTML is ..'},
                 {id:2,title:'CSS', desc:'CSS is ..'}
             ]
-        }
+        } 
     }
     var newState;
     if(action.type === 'SELECT'){
