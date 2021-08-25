@@ -12,7 +12,7 @@ function Weather() {
         fetch(url).then(response => response.json()).then(data => {
             
             
-            console.log(data.name, data.weather[0].main)
+            // console.log(data.name, data.weather[0].main)
             // const name = data.name;
             // const weather = data.weather[0].main;
 
